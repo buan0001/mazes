@@ -20,8 +20,10 @@ body{
 }
 
 .cell{
-    width: 7em;
-    height: 7em;
+    width: var(--CELL-SIZE);
+    height: var(--CELL-SIZE);
+    /* width: 7em;
+    height: 7em; */
     background-color: rgba(42, 111, 180, 0.5);
     border: rgba(214, 209, 209, 0.6) 1px dotted;
     box-sizing: border-box;
@@ -41,4 +43,25 @@ body{
 
 .south{
     border-bottom: 2px black solid;
+}
+
+.cell.discovered{
+    background-color: orange;
+}
+
+.cell.deadEnd{
+    background-color: grey;
+}
+
+
+.cell.goal{
+    background-color: yellow;
+}
+
+.cell.start{
+    background-color: green;
+}
+
+.cell.correctPath{
+    background-color: red;
 }
