@@ -45,21 +45,18 @@ function createMaze(mazeObj) {
   }
 }
 
-function iterativeSolver(mazeObj, currentTile) {
+function iterativeSolver(mazeObj) {
   const tileStack = new Stack();
   const branchStack = new Stack();
-  console.log("The stack:", tileStack);
-  console.log("THe tile:", currentTile);
-  tileStack.push(currentTile);
-
+  tileStack.push(mazeObj.start);
   let iterations = 0;
+
   while (tileStack.peek()) {
     let tile = tileStack.peek().data;
     console.log("Tile:", tile);
-    // if (!tile.discovered) {
+
     markAsDiscovered(mazeObj, tile);
     const validNeighbors = getNeighbourCoords(mazeObj, tile);
-    // console.log("tile stack:", tileStack.peek());
     console.log("Neighbors:", validNeighbors);
     if (validNeighbors.length > 1) {
       console.log("At branch");
@@ -86,10 +83,6 @@ function iterativeSolver(mazeObj, currentTile) {
         markAsDeadEnd(mazeObj, tile);
         tile = tileStack.pop().data;
       }
-      console.log("Left while loop at:", tile);
-      // tile = tileStack.peek().data;
-
-      // }
     }
     iterations++;
     if (iterations > 50) {
@@ -103,7 +96,7 @@ function iterativeSolver(mazeObj, currentTile) {
 
 function markAsCorrectPath(mazeObj, stack) {
   // Leave the goal tile out of the stack
-  stack.pop()
+  stack.pop();
   // And stop before we reach the start tile
   while (stack.peek().next) {
     const tile = stack.pop().data;
@@ -145,19 +138,19 @@ function markAsDeadEnd(mazeObj, coordinates) {
 
 function getNeighbourCoords(mazeObj, coordinates) {
   const validCoords = [];
-  const correctTile = mazeObj.maze[coordinates.row][coordinates.col];
-  const m = mazeObj.maze;
-  if (!correctTile["south"] && !m[correctTile.row + 1][correctTile.col].discovered) {
-    validCoords.push(m[correctTile.row + 1][correctTile.col]);
+  const tile = mazeObj.maze[coordinates.row][coordinates.col];
+  const maze = mazeObj.maze;
+  if (!tile["south"] && !maze[tile.row + 1][tile.col].discovered) {
+    validCoords.push(maze[tile.row + 1][tile.col]);
   }
-  if (!correctTile["east"] && !m[correctTile.row][correctTile.col + 1].discovered) {
-    validCoords.push(m[correctTile.row][correctTile.col + 1]);
+  if (!tile["east"] && !maze[tile.row][tile.col + 1].discovered) {
+    validCoords.push(maze[tile.row][tile.col + 1]);
   }
-  if (!correctTile["west"] && !m[correctTile.row][correctTile.col - 1].discovered) {
-    validCoords.push(m[correctTile.row][correctTile.col - 1]);
+  if (!tile["west"] && !maze[tile.row][tile.col - 1].discovered) {
+    validCoords.push(maze[tile.row][tile.col - 1]);
   }
-  if (!correctTile["north"] && !m[correctTile.row - 1][correctTile.col].discovered) {
-    validCoords.push(m[correctTile.row - 1][correctTile.col]);
+  if (!tile["north"] && !maze[tile.row - 1][tile.col].discovered) {
+    validCoords.push(maze[tile.row - 1][tile.col]);
   }
 
   return validCoords;
